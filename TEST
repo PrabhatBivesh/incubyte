@@ -1,0 +1,96 @@
+import numpy as np
+
+class Spacecraft:
+    def __init__(self, x, y, z, direction):
+        self.position = np.array([x, y, z])
+        self.direction = direction
+
+    def move_forward(self):
+        if self.direction == "N":
+            self.position[1] += 1
+        elif self.direction == "S":
+            self.position[1] -= 1
+        elif self.direction == "E":
+            self.position[0] += 1
+        elif self.direction == "W":
+            self.position[0] -= 1
+        elif self.direction == "Up":
+            self.position[2] += 1
+        elif self.direction == "Down":
+            self.position[2] -= 1
+
+    def move_backward(self):
+        if self.direction == "N":
+            self.position[1] -= 1
+        elif self.direction == "S":
+            self.position[1] += 1
+        elif self.direction == "E":
+            self.position[0] -= 1
+        elif self.direction == "W":
+            self.position[0] += 1
+        elif self.direction == "Up":
+            self.position[2] -= 1
+        elif self.direction == "Down":
+            self.position[2] += 1
+
+    def turn_left(self):
+        if self.direction == "N":
+            self.direction = "W"
+        elif self.direction == "W":
+            self.direction = "S"
+        elif self.direction == "S":
+            self.direction = "E"
+        elif self.direction == "E":
+            self.direction = "N"
+
+    def turn_right(self):
+        if self.direction == "N":
+            self.direction = "E"
+        elif self.direction == "E":
+            self.direction = "S"
+        elif self.direction == "S":
+            self.direction = "W"
+        elif self.direction == "W":
+            self.direction = "N"
+
+    def turn_up(self):
+        if self.direction in ("N", "S", "E", "W"):
+            self.direction = "Up"
+        elif self.direction == "Down":
+            self.direction = "N"
+
+    def turn_down(self):
+        if self.direction in ("N", "S", "E", "W"):
+            self.direction = "Down"
+        elif self.direction == "Up":
+            self.direction = "S"
+
+def main():
+    starting_position = np.array([0, 0, 0])
+    initial_direction = "N"
+    commands = ["f", "r", "u", "b", "l"]
+
+    spacecraft = Spacecraft(starting_position[0], starting_position[1], starting_position[2], initial_direction)
+
+    for command in commands:
+        if command == "f":
+            spacecraft.move_forward()
+        elif command == "b":
+            spacecraft.move_backward()
+        elif command == "r":
+            spacecraft.turn_right()
+        elif command == "l":
+            spacecraft.turn_left()
+        elif command == "u":
+            spacecraft.turn_up()
+        elif command == "d":
+            spacecraft.turn_down()
+
+    final_position = tuple(spacecraft.position)
+    final_direction = spacecraft.direction
+
+    print("Final Position:", final_position)
+    print("Final Direction:", final_direction)
+
+if __name__ == "__main__":
+    main()
